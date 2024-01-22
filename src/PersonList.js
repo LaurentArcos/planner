@@ -33,6 +33,9 @@ const personNames = [
   "Quentin",
   "Quentus",
   "Rémi",
+  "Tatiana",
+  "Nathaniel",
+  "Yoann"
 ];
 
 const PersonList = ({ onSelectionDone }) => {
@@ -40,22 +43,25 @@ const PersonList = ({ onSelectionDone }) => {
     Bertrand: new Set(["Absent"]),
     Capucine: new Set(["S.A.V. (8h-16h)","S.A.V. (11h-19h)","S.A.V. (9h-17h)"]),
     Elino: new Set([""]),
-    Florian: new Set(["S.A.V. (8h-16h)","S.A.V. (11h-19h)","S.A.V. (9h-17h)"]),
+    Florian: new Set(["Cuisine", "Nettoyage", "S.A.V. (8h-16h)","S.A.V. (11h-19h)","S.A.V. (9h-17h)"]),
     Hugo: new Set(["S.A.V. (8h-16h)","S.A.V. (11h-19h)","S.A.V. (9h-17h)"]),
     Laurent: new Set(["Cuisine", "Nettoyage"]),
-    Lorenzo: new Set([""]),
+    Lorenzo: new Set(["Boutique Toulon"]),
     Lucas: new Set([""]),
     Lucie: new Set([""]),
     Margot: new Set(["Cuisine", "Nettoyage"]),
-    Marie: new Set([""]),
+    Marie: new Set(["Cuisine", "Nettoyage"]),
     Mathis: new Set(["Cuisine", "Nettoyage"]),
     Matthieu: new Set(["Absent"]),
-    Nolan: new Set([""]),
+    Nolan: new Set(["Boutique Toulon"]),
     Oualid: new Set([""]),
     Pierre: new Set([""]),
     Quentin: new Set([""]),
     Quentus: new Set(["Cuisine", "Nettoyage"]),
     Rémi: new Set(["Cuisine", "Nettoyage"]),
+    Tatiana: new Set(["Boutique Paris"]),
+    Nathaniel: new Set(["Boutique Paris"]),
+    Yoann: new Set(["Boutique Paris"])
   };
 
   const [selections, setSelections] = useState(initialSelections);
@@ -75,7 +81,7 @@ const PersonList = ({ onSelectionDone }) => {
       }
     } else {
       if (updatedSelections[person].has("Absent")) {
-        return; // Ignorer les changements si "Absent" est déjà coché
+        return; 
       }
       if (updatedSelections[person].has(role)) {
         updatedSelections[person].delete(role);
@@ -88,6 +94,7 @@ const PersonList = ({ onSelectionDone }) => {
   };
 
   const handleSubmit = () => {
+    console.log("Final selections:", selections);
     onSelectionDone(selections);
   };
 
