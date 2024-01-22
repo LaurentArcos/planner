@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 
 const roles = [
-  "Astreinte Prestataires",
-  "SAV (8h-16h)",
-  "SAV Astreinte (11h-19h)",
   "Cuisine",
   "Nettoyage",
-  "Absent",
+  "S.A.V. (8h-16h)",
+  "S.A.V. (11h-19h)",
+  "S.A.V. (9h-17h)",
+  "Astreinte Prestataires / Repassage",
+  "Pilote Session",
+  "Boutique Toulon",
+  "Boutique Paris",
+  "Absent"
 ];
 
 const personNames = [
@@ -33,10 +37,25 @@ const personNames = [
 
 const PersonList = ({ onSelectionDone }) => {
   const initialSelections = {
-    Florian: new Set(["SAV (8h-16h)", "Cuisine"]),
-    Margot: new Set(["Cuisine"]),
-    Laurent: new Set(["Cuisine"]),
-    Quentus: new Set(["Cuisine"]),
+    Bertrand: new Set(["Absent"]),
+    Capucine: new Set(["S.A.V. (8h-16h)","S.A.V. (11h-19h)","S.A.V. (9h-17h)"]),
+    Elino: new Set([""]),
+    Florian: new Set(["S.A.V. (8h-16h)","S.A.V. (11h-19h)","S.A.V. (9h-17h)"]),
+    Hugo: new Set(["S.A.V. (8h-16h)","S.A.V. (11h-19h)","S.A.V. (9h-17h)"]),
+    Laurent: new Set(["Cuisine", "Nettoyage"]),
+    Lorenzo: new Set([""]),
+    Lucas: new Set([""]),
+    Lucie: new Set([""]),
+    Margot: new Set(["Cuisine", "Nettoyage"]),
+    Marie: new Set([""]),
+    Mathis: new Set(["Cuisine", "Nettoyage"]),
+    Matthieu: new Set(["Absent"]),
+    Nolan: new Set([""]),
+    Oualid: new Set([""]),
+    Pierre: new Set([""]),
+    Quentin: new Set([""]),
+    Quentus: new Set(["Cuisine", "Nettoyage"]),
+    Rémi: new Set(["Cuisine", "Nettoyage"]),
   };
 
   const [selections, setSelections] = useState(initialSelections);
@@ -91,7 +110,7 @@ const PersonList = ({ onSelectionDone }) => {
               type="checkbox"
               className="checkbox"
               id={`${person}-${role}`}
-              checked={selections[person]?.has(role)}
+              checked={!!selections[person]?.has(role)}
               onChange={() => handleRoleChange(person, role)}
               disabled={role !== "Absent" && selections[person]?.has("Absent")}
             />
