@@ -1,0 +1,111 @@
+import React, { useState } from "react";
+
+const roles = [
+  "Astreinte Prestataires",
+  "SAV (8h-16h)",
+  "SAV Astreinte (11h-19h)",
+  "Cuisine",
+  "Nettoyage",
+  "Absent",
+];
+
+const personNames = [
+  "Bertrand",
+  "Capucine",
+  "Elino",
+  "Florian",
+  "Hugo",
+  "Laurent",
+  "Lorenzo",
+  "Lucas",
+  "Lucie",
+  "Margot",
+  "Marie",
+  "Mathis",
+  "Matthieu",
+  "Nolan",
+  "Oualid",
+  "Pierre",
+  "Quentin",
+  "Quentus",
+  "Rémi",
+];
+
+const PersonList = ({ onSelectionDone }) => {
+  const initialSelections = {
+    Florian: new Set(["SAV (8h-16h)", "Cuisine"]),
+    Margot: new Set(["Cuisine"]),
+    Laurent: new Set(["Cuisine"]),
+    Quentus: new Set(["Cuisine"]),
+  };
+
+  const [selections, setSelections] = useState(initialSelections);
+
+  const handleRoleChange = (person, role) => {
+    const updatedSelections = { ...selections };
+
+    if (!updatedSelections[person]) {
+      updatedSelections[person] = new Set();
+    }
+
+    if (role === "Absent") {
+      if (updatedSelections[person].has(role)) {
+        updatedSelections[person].clear();
+      } else {
+        updatedSelections[person] = new Set(["Absent"]);
+      }
+    } else {
+      if (updatedSelections[person].has("Absent")) {
+        return; // Ignorer les changements si "Absent" est déjà coché
+      }
+      if (updatedSelections[person].has(role)) {
+        updatedSelections[person].delete(role);
+      } else {
+        updatedSelections[person].add(role);
+      }
+    }
+
+    setSelections(updatedSelections);
+  };
+
+  const handleSubmit = () => {
+    onSelectionDone(selections);
+  };
+
+  return (
+    <div className="person-list">
+      <div className="row header-row">
+        <div className="column">Personne</div>
+        {roles.map((role) => (
+          <div className="column" key={role}>
+            {role}
+          </div>
+        ))}
+      </div>
+      {personNames.map(person => (
+      <div className={`row ${selections[person]?.has("Absent") ? "row-absent" : ""}`} key={person}>
+        <div className="column-name">{person}</div>
+        {roles.map(role => (
+          <div className="column" key={role}>
+            <input
+              type="checkbox"
+              className="checkbox"
+              id={`${person}-${role}`}
+              checked={selections[person]?.has(role)}
+              onChange={() => handleRoleChange(person, role)}
+              disabled={role !== "Absent" && selections[person]?.has("Absent")}
+            />
+            <label
+              htmlFor={`${person}-${role}`}
+              className={`checkbox-label ${role !== "Absent" && selections[person]?.has("Absent") ? "disabled" : ""}`}
+            ></label>
+          </div>
+        ))}
+      </div>
+    ))}
+      <button onClick={handleSubmit}>Valider</button>
+    </div>
+  );
+};
+
+export default PersonList;
