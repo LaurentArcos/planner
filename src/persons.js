@@ -2,7 +2,7 @@ const persons = [
   {
     name: "Bertrand",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Absent"]
+    tasks: ["Absents"]
   },
   {
     name: "Capucine",
@@ -62,7 +62,7 @@ const persons = [
   {
     name: "Matthieu",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Absent"]
+    tasks: ["Absents"]
   },
   {
     name: "Nathaniel",
@@ -82,7 +82,7 @@ const persons = [
   {
     name: "Pierre",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Absent"]
+    tasks: ["Absents"]
   },
   {
     name: "Quentin",

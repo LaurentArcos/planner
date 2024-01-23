@@ -1,6 +1,6 @@
 const tasks = [
   {
-    name: "Absent",
+    name: "Absents",
     group: "",
     days: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI", "SAMEDI", "DIMANCHE"]
   },

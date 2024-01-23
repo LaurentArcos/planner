@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import personsData from "./persons"; // Importer les données des personnes
-import tasksData from "./tasks"; // Importer les données des tâches
+import personsData from "./persons"; 
+import tasksData from "./tasks"; 
 
 const WeekPlanner = ({ selections }) => {
-  const tasks = tasksData; // Utiliser les données des tâches à partir du fichier
-  const persons = personsData; // Utiliser les données des personnes à partir du fichier
+  const tasks = tasksData; 
+  const persons = personsData; 
 
   const days = [
     "LUNDI",
@@ -16,22 +16,21 @@ const WeekPlanner = ({ selections }) => {
     "DIMANCHE",
   ];
 
-  // Fonction pour vérifier si une personne est déjà attribuée à une tâche pour un jour donné
   function isPersonAssignedToTask(person, task, day) {
     const personSelection = selections[person.name];
     const isTaskScheduledToday = task.days.includes(day);
   
-    if (personSelection.roles.has("Absent")) {
-      return task.name === "Absent";
+    const isMarkedAbsent = personSelection.roles.has("Absents");
+    const isDayWeekend = day === "SAMEDI" || day === "DIMANCHE";
+    const isPersonUnavailable = !person.availableDays.includes(day);
+  
+    if (task.name === "Absents") {
+      return isMarkedAbsent || (isPersonUnavailable && !isDayWeekend);
     }
-    return (
-      isTaskScheduledToday &&
-      personSelection.roles.has(task.name) &&
-      person.availableDays.includes(day)
-    );
+  
+    return isTaskScheduledToday && personSelection.roles.has(task.name) && !isPersonUnavailable;
   }
-
-  // Regrouper les tâches par groupe
+  
   const groupedTasks = tasks.reduce((grouped, task) => {
     const group = task.group;
     if (!grouped[group]) {
@@ -41,9 +40,19 @@ const WeekPlanner = ({ selections }) => {
     return grouped;
   }, {});
 
-  // Fonction pour vérifier si un jour est inactif pour un groupe de tâches
+  function getAbsenteesForDay(day) {
+    const isDayWeekend = day === "SAMEDI" || day === "DIMANCHE";
+    return persons.filter(person => {
+      const personSelection = selections[person.name];
+      const isMarkedAbsent = personSelection.roles.has("Absents");
+      const isPersonUnavailable = !person.availableDays.includes(day);
+  
+      return isMarkedAbsent || (isPersonUnavailable && !isDayWeekend);
+    }).map(person => person.name);
+  }
+
+  
   function isDayInactive(task, day) {
-    console.log(task); // Ajouter pour le débogage
     return !task.days.includes(day);
   }
 
@@ -53,37 +62,40 @@ const WeekPlanner = ({ selections }) => {
         <tr>
           <th>Tâches / Jours</th>
           {days.map((day) => (
-  <th
-    key={day}
-  >
-    {day}
-  </th>
-))}
+            <th key={day}>{day}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
-        {Object.entries(groupedTasks).map(([group, groupTasks]) => (
-          <React.Fragment key={group}>
-            <tr className="group-title">
-              <td colSpan={days.length + 1}>{group}</td>
-            </tr>
-            {groupTasks.map((task) => (
-              <tr key={task.name}>
-                <td>{task.name}</td>
-                {days.map(day => (
-  <td key={`${task.name}-${day}`} className={isDayInactive(task, day) ? 'greyed-out' : ''}>
-    {persons.map(person => (
-      <div key={`${task.name}-${day}-${person.name}`}>
-        {isPersonAssignedToTask(person, task, day) && <span>{person.name}</span>}
-      </div>
-    ))}
-  </td>
-))}
-              </tr>
-            ))}
-          </React.Fragment>
-        ))}
-      </tbody>
+  {Object.entries(groupedTasks).map(([group, groupTasks]) => (
+    <React.Fragment key={group}>
+      {group && ( 
+        <tr className="group-title">
+          <td colSpan={days.length + 1}>{group}</td>
+        </tr>
+      )}
+      {groupTasks.map((task) => (
+        <tr key={task.name}>
+          <td>{task.name}</td>
+          {days.map((day) => (
+            <td
+              key={`${task.name}-${day}`}
+              className={isDayInactive(task, day) ? "greyed-out" : ""}
+            >
+              {persons.map((person) => (
+                <div key={`${task.name}-${day}-${person.name}`}>
+                  {isPersonAssignedToTask(person, task, day) && (
+                    <span>{person.name}</span>
+                  )}
+                </div>
+              ))}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </React.Fragment>
+  ))}
+</tbody>
     </table>
   );
 };

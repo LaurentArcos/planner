@@ -17,14 +17,14 @@ const PersonList = ({ onSelectionDone }) => {
     const updatedSelections = { ...selections };
     const personData = updatedSelections[person];
 
-    if (role === "Absent") {
+    if (role === "Absents") {
       if (personData.roles.has(role)) {
         personData.roles.clear();
       } else {
-        personData.roles.add("Absent");
+        personData.roles.add("Absents");
       }
     } else {
-      if (personData.roles.has("Absent")) {
+      if (personData.roles.has("Absents")) {
         return;
       }
       if (personData.roles.has(role)) {
@@ -55,7 +55,7 @@ const PersonList = ({ onSelectionDone }) => {
       {personsData.map((person) => (
         <div
           className={`row ${
-            selections[person.name].roles.has("Absent") ? "row-absent" : ""
+            selections[person.name].roles.has("Absents") ? "row-absents" : ""
           }`}
           key={person.name}
         >
@@ -69,15 +69,15 @@ const PersonList = ({ onSelectionDone }) => {
                 checked={selections[person.name].roles.has(task.name)}
                 onChange={() => handleRoleChange(person.name, task.name)}
                 disabled={
-                  task.name !== "Absent" &&
-                  selections[person.name].roles.has("Absent")
+                  task.name !== "Absents" &&
+                  selections[person.name].roles.has("Absents")
                 }
               />
               <label
                 htmlFor={`${person.name}-${task.name}`}
                 className={`checkbox-label ${
-                  task.name !== "Absent" &&
-                  selections[person.name].roles.has("Absent")
+                  task.name !== "Absents" &&
+                  selections[person.name].roles.has("Absents")
                     ? "disabled"
                     : ""
                 }`}
