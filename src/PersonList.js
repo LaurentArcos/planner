@@ -5,7 +5,7 @@ import tasksData from "./tasks";
 const PersonList = ({ onSelectionDone }) => {
   const initialSelections = personsData.reduce((acc, person) => {
     acc[person.name] = {
-      roles: new Set(person.tasks), // Sélectionner par défaut les tâches attribuées à la personne
+      roles: new Set(person.tasks),
       absentDays: person.availableDays,
     };
     return acc;
