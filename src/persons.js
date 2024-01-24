@@ -7,7 +7,7 @@ const persons = [
   {
     name: "Capucine",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["S.A.V. (8h-16h)", "Nettoyage"]
+    tasks: ["S.A.V. (8h-16h)", "S.A.V. (11h-19h)","S.A.V. (9h-17h)","Nettoyage"]
   },
   {
     name: "Elino",
@@ -17,12 +17,12 @@ const persons = [
   {
     name: "Florian",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Cuisine", "Nettoyage","S.A.V. (9h-17h)"]
+    tasks: ["Cuisine", "Nettoyage","S.A.V. (8h-16h)","S.A.V. (11h-19h)","S.A.V. (9h-17h)"]
   },
   {
     name: "Hugo",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Cuisine", "S.A.V. (11h-19h)", "Nettoyage"]
+    tasks: ["Cuisine","S.A.V. (8h-16h)", "S.A.V. (11h-19h)","S.A.V. (9h-17h)", "Nettoyage"]
   },
   {
     name: "Laurent",

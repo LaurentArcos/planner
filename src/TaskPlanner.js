@@ -33,41 +33,70 @@ const TaskPlanner = () => {
     };
 
     const handleSelectionChange = (personName, isChecked) => {
-        const key = `${selectedTask.name}-${selectedDay}`;
-        let updatedSelections = selections[key] ? [...selections[key]] : [];
-        if (isChecked) {
-            updatedSelections.push(personName);
-        } else {
-            updatedSelections = updatedSelections.filter(name => name !== personName);
-        }
-        setSelections({ ...selections, [key]: updatedSelections });
-    };
-
-    const renderModal = () => {
-      const eligiblePersons = selectedTask.name === "Absents" 
-          ? persons 
-          : persons.filter(person => selectedTask.persons.includes(person.name));
+      const key = `${selectedTask.name}-${selectedDay}`;
   
-      return (
-          <div className="modal-overlay">
-              <div className="modal">
-                  <span className="close-button" onClick={handleCloseModal}>&times;</span>
-                  <h2>Sélection pour {selectedTask?.name} - {selectedDay}</h2>
-                  {eligiblePersons.map(person => (
-                      <div key={person.name}>
-                          <input
-                              type="checkbox"
-                              id={`modal-${person.name}`}
-                              checked={selections[`${selectedTask.name}-${selectedDay}`]?.includes(person.name)}
-                              onChange={(e) => handleSelectionChange(person.name, e.target.checked)}
-                          />
-                          <label htmlFor={`modal-${person.name}`}>{person.name}</label>
-                      </div>
-                  ))}
-              </div>
-          </div>
-      );
+      // Gérer la sélection pour "Absents - Toute la semaine"
+      if (selectedTask.name === "Absents" && selectedDay === "Toute la semaine") {
+          const updatedSelections = { ...selections };
+          days.forEach(day => {
+              if (isChecked) {
+                  updatedSelections[`Absents-${day}`] = [...new Set([...updatedSelections[`Absents-${day}`], personName])];
+              } else {
+                  updatedSelections[`Absents-${day}`] = updatedSelections[`Absents-${day}`].filter(name => name !== personName);
+              }
+          });
+          setSelections(updatedSelections);
+          return;
+      }
+  
+      // Cas général
+      let updatedSelections = selections[key] ? [...selections[key]] : [];
+      if (isChecked) {
+          updatedSelections.push(personName);
+      } else {
+          updatedSelections = updatedSelections.filter(name => name !== personName);
+      }
+      setSelections({ ...selections, [key]: updatedSelections });
   };
+
+  const renderModal = () => {
+    let eligiblePersons;
+
+    if (selectedTask.name === "Absents") {
+        // Pour "Absents", toutes les personnes sont éligibles
+        eligiblePersons = persons;
+    } else {
+        // Pour les autres tâches, exclure les personnes absentes ce jour-là
+        eligiblePersons = persons.filter(person => {
+            // Vérifier si la personne est marquée absente ce jour-là
+            const isAbsent = selections[`Absents-${selectedDay}`]?.includes(person.name);
+            return selectedTask.persons.includes(person.name) && !isAbsent;
+        });
+    }
+  
+          return (
+            <div className="modal-overlay">
+                <div className="modal">
+                    <span className="close-button" onClick={handleCloseModal}>&times;</span>
+                    <h2>Sélection pour {selectedTask?.name} - {selectedDay}</h2>
+                    {eligiblePersons.map(person => {
+                        const isChecked = selections[`Absents-Toute la semaine`]?.includes(person.name) || selections[`${selectedTask.name}-${selectedDay}`]?.includes(person.name);
+                        return (
+                            <div key={person.name}>
+                                <input
+                                    type="checkbox"
+                                    id={`modal-${person.name}`}
+                                    checked={isChecked}
+                                    onChange={(e) => handleSelectionChange(person.name, e.target.checked)}
+                                />
+                                <label htmlFor={`modal-${person.name}`}>{person.name}</label>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    };
 
     const renderTaskTable = () => {
         return (
