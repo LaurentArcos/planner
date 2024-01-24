@@ -7,22 +7,22 @@ const persons = [
   {
     name: "Capucine",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["S.A.V. (8h-16h)", "S.A.V. (11h-19h)", "S.A.V. (9h-17h)"]
+    tasks: ["S.A.V. (8h-16h)", "Nettoyage"]
   },
   {
     name: "Elino",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Pilote Session", "Astreinte Prestataires / Repassage"]
+    tasks: ["Pilote Session", "Nettoyage"]
   },
   {
     name: "Florian",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Cuisine", "Nettoyage", "S.A.V. (8h-16h)", "S.A.V. (11h-19h)", "S.A.V. (9h-17h)"]
+    tasks: ["Cuisine", "Nettoyage","S.A.V. (9h-17h)"]
   },
   {
     name: "Hugo",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["S.A.V. (8h-16h)", "S.A.V. (11h-19h)", "S.A.V. (9h-17h)"]
+    tasks: ["Cuisine", "S.A.V. (11h-19h)", "Nettoyage"]
   },
   {
     name: "Laurent",
@@ -37,12 +37,12 @@ const persons = [
   {
     name: "Lucas",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Pilote Session", "Astreinte Prestataires / Repassage"]
+    tasks: ["Pilote Session", "Astreinte Prestataires / Repassage", "Nettoyage"]
   },
   {
     name: "Lucie",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Pilote Session"]
+    tasks: ["Pilote Session", "Nettoyage"]
   },
   {
     name: "Margot",
@@ -77,7 +77,7 @@ const persons = [
   {
     name: "Oualid",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "VENDREDI"],
-    tasks: ["Pilote Session", "Astreinte Prestataires / Repassage"]
+    tasks: ["Pilote Session", "Nettoyage"]
   },
   {
     name: "Pierre",
@@ -87,7 +87,7 @@ const persons = [
   {
     name: "Quentin",
     availableDays: ["LUNDI", "MARDI", "VENDREDI"],
-    tasks: ["Pilote Session", "Astreinte Prestataires / Repassage"]
+    tasks: ["Pilote Session", "Nettoyage"]
   },
   {
     name: "Quentus",
