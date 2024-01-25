@@ -11,47 +11,59 @@
   }
 
   table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
 
-      th, td {
-          border: 1px solid #333333; 
-          padding: 10px;
-          text-align: center;
+    th, td {
+        border: 1px solid #333333; 
+        padding: 10px;
+        text-align: center;
 
-          &.greyed-out {
-              color: #aaaaaa; 
-          }
-      }
-
-      th {
-          background-color: #1e1e1e;
-          padding: 2rem 0;
-      }
-
-      td {
-        padding: 1.5rem 0;
+        &.greyed-out {
+            color: #aaaaaa; 
+        }
     }
 
-      tr:nth-child(even) {
-          background-color: #242424; 
-      }
+    th {
+        background-color: #1e1e1e;
+        padding: 2rem 0;
+    }
+
+    td {
+    padding: 1.5rem 0;
+}
+
+    tr:nth-child(even) {
+        background-color: #242424; 
+    }
   }
 
   .button {
-      background-color: #323232;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
+    background-color: #323232;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
-      &:hover {
-          background-color: #434343; 
-      }
+    &:hover {
+        background-color: #434343; 
+    }
   }
+
+  .button-add {
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: #009c22; 
+        scale: 1.2;
+    }
+}
 
   .modal {
       position: fixed;

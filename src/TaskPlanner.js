@@ -252,7 +252,7 @@ const TaskPlanner = () => {
                             <td>{task.name}</td>
                             {days.map(day => (
                                 <td key={`${task.name}-${day}`}>
-                                    <button onClick={() => handleOpenModal(task, day)}>Sélectionner</button>
+                                    <button className='button-add' onClick={() => handleOpenModal(task, day)}>+</button>
                                     <div>
                                         {selections[`${task.name}-${day}`]?.map(name => <div key={name}>{name}</div>)}
                                     </div>
