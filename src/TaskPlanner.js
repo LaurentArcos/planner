@@ -49,21 +49,48 @@ const TaskPlanner = () => {
           return;
       }
 
+        // Gérer la sélection pour "Cuisine - Toute la semaine"
+      if (selectedTask.name === "Cuisine" && selectedDay === "Toute la semaine") {
+          days.forEach(day => {
+              if (isChecked) {
+                  updatedSelections[`Cuisine-${day}`] = [...new Set([...updatedSelections[`Cuisine-${day}`], personName])];
+              } else {
+                  updatedSelections[`Cuisine-${day}`] = updatedSelections[`Cuisine-${day}`].filter(name => name !== personName);
+              }
+          });
+          setSelections(updatedSelections);
+          return;
+      }
+
+        // Gérer la sélection pour "Nettoyage - Toute la semaine"
+      if (selectedTask.name === "Nettoyage" && selectedDay === "Toute la semaine") {
+          days.forEach(day => {
+              if (isChecked) {
+                  updatedSelections[`Nettoyage-${day}`] = [...new Set([...updatedSelections[`Nettoyage-${day}`], personName])];
+              } else {
+                  updatedSelections[`Nettoyage-${day}`] = updatedSelections[`Nettoyage-${day}`].filter(name => name !== personName);
+              }
+          });
+          setSelections(updatedSelections);
+          return;
+      }
+
+      
       // Gérer la sélection pour "S.A.V. (8h-16h) - Toute la semaine"
       if (selectedTask.name === "S.A.V. (8h-16h)" && selectedDay === "Toute la semaine") {
-        days.forEach(day => {
-            if (isChecked) {
-                updatedSelections[`S.A.V. (8h-16h)-${day}`] = [...new Set([...updatedSelections[`S.A.V. (8h-16h)-${day}`], personName])];
-            } else {
-                updatedSelections[`S.A.V. (8h-16h)-${day}`] = updatedSelections[`S.A.V. (8h-16h)-${day}`].filter(name => name !== personName);
-            }
-        });
-        setSelections(updatedSelections);
-        return;
-    }
-
-          // Gérer la sélection pour "S.A.V. (9h-17h) - Toute la semaine"
-          if (selectedTask.name === "S.A.V. (9h-17h)" && selectedDay === "Toute la semaine") {
+          days.forEach(day => {
+              if (isChecked) {
+                  updatedSelections[`S.A.V. (8h-16h)-${day}`] = [...new Set([...updatedSelections[`S.A.V. (8h-16h)-${day}`], personName])];
+                } else {
+                    updatedSelections[`S.A.V. (8h-16h)-${day}`] = updatedSelections[`S.A.V. (8h-16h)-${day}`].filter(name => name !== personName);
+                }
+            });
+            setSelections(updatedSelections);
+            return;
+        }
+        
+        // Gérer la sélection pour "S.A.V. (9h-17h) - Toute la semaine"
+        if (selectedTask.name === "S.A.V. (9h-17h)" && selectedDay === "Toute la semaine") {
             days.forEach(day => {
                 if (isChecked) {
                     updatedSelections[`S.A.V. (9h-17h)-${day}`] = [...new Set([...updatedSelections[`S.A.V. (9h-17h)-${day}`], personName])];
@@ -74,19 +101,71 @@ const TaskPlanner = () => {
             setSelections(updatedSelections);
             return;
         }
+        
+        // Gérer la sélection pour "S.A.V. (11h-19h) - Toute la semaine"
+        if (selectedTask.name === "S.A.V. (11h-19h)" && selectedDay === "Toute la semaine") {
+            days.forEach(day => {
+                if (isChecked) {
+                    updatedSelections[`S.A.V. (11h-19h)-${day}`] = [...new Set([...updatedSelections[`S.A.V. (11h-19h)-${day}`], personName])];
+                } else {
+                    updatedSelections[`S.A.V. (11h-19h)-${day}`] = updatedSelections[`S.A.V. (11h-19h)-${day}`].filter(name => name !== personName);
+                }
+            });
+            setSelections(updatedSelections);
+            return;
+        }
+
+        // Gérer la sélection pour "Astreinte Prestataires / Repassage - Toute la semaine"
+        if (selectedTask.name === "Astreinte Prestataires / Repassage" && selectedDay === "Toute la semaine") {
+            days.forEach(day => {
+                if (isChecked) {
+                    updatedSelections[`Astreinte Prestataires / Repassage-${day}`] = [...new Set([...updatedSelections[`Astreinte Prestataires / Repassage-${day}`], personName])];
+                } else {
+                    updatedSelections[`Astreinte Prestataires / Repassage-${day}`] = updatedSelections[`Astreinte Prestataires / Repassage-${day}`].filter(name => name !== personName);
+                }
+            });
+            setSelections(updatedSelections);
+            return;
+        }
+
+        // Gérer la sélection pour "Pilote Session - Toute la semaine"
+      if (selectedTask.name === "Pilote Session" && selectedDay === "Toute la semaine") {
+          days.forEach(day => {
+              if (isChecked) {
+                  updatedSelections[`Pilote Session-${day}`] = [...new Set([...updatedSelections[`Pilote Session-${day}`], personName])];
+              } else {
+                  updatedSelections[`Pilote Session-${day}`] = updatedSelections[`Pilote Session-${day}`].filter(name => name !== personName);
+              }
+          });
+          setSelections(updatedSelections);
+          return;
+      }
   
-              // Gérer la sélection pour "S.A.V. (11h-19h) - Toute la semaine"
-      if (selectedTask.name === "S.A.V. (11h-19h)" && selectedDay === "Toute la semaine") {
-        days.forEach(day => {
-            if (isChecked) {
-                updatedSelections[`S.A.V. (11h-19h)-${day}`] = [...new Set([...updatedSelections[`S.A.V. (11h-19h)-${day}`], personName])];
-            } else {
-                updatedSelections[`S.A.V. (11h-19h)-${day}`] = updatedSelections[`S.A.V. (11h-19h)-${day}`].filter(name => name !== personName);
-            }
-        });
-        setSelections(updatedSelections);
-        return;
-    }
+        // Gérer la sélection pour "Boutique Toulon - Toute la semaine"
+      if (selectedTask.name === "Boutique Toulon" && selectedDay === "Toute la semaine") {
+          days.forEach(day => {
+              if (isChecked) {
+                  updatedSelections[`Boutique Toulon-${day}`] = [...new Set([...updatedSelections[`Boutique Toulon-${day}`], personName])];
+              } else {
+                  updatedSelections[`Boutique Toulon-${day}`] = updatedSelections[`Boutique Toulon-${day}`].filter(name => name !== personName);
+              }
+          });
+          setSelections(updatedSelections);
+          return;
+      }
+  
+        // Gérer la sélection pour "Boutique Paris - Toute la semaine"
+      if (selectedTask.name === "Boutique Paris" && selectedDay === "Toute la semaine") {
+          days.forEach(day => {
+              if (isChecked) {
+                  updatedSelections[`Boutique Paris-${day}`] = [...new Set([...updatedSelections[`Boutique Paris-${day}`], personName])];
+              } else {
+                  updatedSelections[`Boutique Paris-${day}`] = updatedSelections[`Boutique Paris-${day}`].filter(name => name !== personName);
+              }
+          });
+          setSelections(updatedSelections);
+          return;
+      }
   
       // Cas général pour toutes les tâches sauf "Cuisine" et "Nettoyage"
       if (selectedTask.name !== "Cuisine" && selectedTask.name !== "Nettoyage") {
