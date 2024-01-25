@@ -27,11 +27,12 @@
 
     th {
         background-color: #1e1e1e;
-        padding: 2rem 0;
+        padding: 1.5rem 0;
     }
 
     td {
-    padding: 1.5rem 0;
+    padding: 1rem 0;
+    font-size: 1.2rem;
 }
 
     tr:nth-child(even) {
@@ -40,7 +41,7 @@
   }
 
   .button {
-    background-color: #323232;
+    background-color: #c52c2c;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -54,6 +55,8 @@
   }
 
   .button-add {
+    background: none;
+    color: white;
     border-radius: 50%;
     font-size: 1.2rem;
     cursor: pointer;
@@ -61,6 +64,15 @@
 
     &:hover {
         background-color: #009c22; 
+        scale: 1.2;
+    }
+}
+
+    .deselect-button {
+        color: red;
+        padding: 0 1rem;
+        cursor: pointer;
+    &:hover {
         scale: 1.2;
     }
 }
@@ -99,4 +111,19 @@
           color: white;
       }
   }
+
+}
+.modal-name {
+  font-size: 1.2rem;
+  margin: 0.5rem;
+  padding-left: 1rem;
+}
+
+input {
+    margin-right: 1rem;
+}
+
+.close-button {
+    font-size: 2rem;
+    font-weight: bold;
 }

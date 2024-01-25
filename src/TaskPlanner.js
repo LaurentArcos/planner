@@ -194,6 +194,21 @@ const TaskPlanner = () => {
       setSelections(updatedSelections);
   };
 
+  const handleDeselectPerson = (personName, selectionKey) => {
+    const updatedSelections = { ...selections };
+    updatedSelections[selectionKey] = updatedSelections[selectionKey].filter(name => name !== personName);
+    setSelections(updatedSelections);
+};
+
+const handleClearNames = (taskName) => {
+    const updatedSelections = { ...selections };
+    days.forEach(day => {
+        updatedSelections[`${taskName}-${day}`] = [];
+    });
+    setSelections(updatedSelections);
+};
+
+
   const renderModal = () => {
     let eligiblePersons;
 
@@ -212,7 +227,8 @@ const TaskPlanner = () => {
             return true;
         });
     }
-  
+
+
           return (
             <div className="modal-overlay">
                 <div className="modal">
@@ -221,8 +237,9 @@ const TaskPlanner = () => {
                     {eligiblePersons.map(person => {
                         const isChecked = selections[`Absents-Toute la semaine`]?.includes(person.name) || selections[`${selectedTask.name}-${selectedDay}`]?.includes(person.name);
                         return (
-                            <div key={person.name}>
+                            <div key={person.name}  className='modal-name'>
                                 <input
+                                    
                                     type="checkbox"
                                     id={`modal-${person.name}`}
                                     checked={isChecked}
@@ -237,25 +254,61 @@ const TaskPlanner = () => {
         );
     };
 
+
     const renderTaskTable = () => {
         return (
             <table>
                 <thead>
                     <tr>
                         <th>Tâches / Jours</th>
+                        <th style={{ width: '5%' }}>Tout Décocher</th>
                         {days.map(day => <th key={day}>{day}</th>)}
                     </tr>
                 </thead>
                 <tbody>
                     {tasks.map(task => (
                         <tr key={task.name}>
-                            <td>{task.name}</td>
+                            <td>
+                                <div>{task.name}</div>
+                            </td>
+                            <td>
+                                <div>
+                                    <span
+                                        className="deselect-button"
+                                        onClick={() => handleClearNames(task.name)}
+                                    >
+                                        &#10005;
+                                    </span>
+                                </div>
+                            </td>
                             {days.map(day => (
-                                <td key={`${task.name}-${day}`}>
-                                    <button className='button-add' onClick={() => handleOpenModal(task, day)}>+</button>
-                                    <div>
-                                        {selections[`${task.name}-${day}`]?.map(name => <div key={name}>{name}</div>)}
-                                    </div>
+                                <td style={{ width: '9.5%' }} key={`${task.name}-${day}`}>
+                                    {day === "Toute la semaine" || task.days.includes(day) ? (
+                                        <>
+                                            <button
+                                                className='button-add'
+                                                onClick={() => handleOpenModal(task, day)}
+                                            >
+                                                +
+                                            </button>
+                                            <div>
+                                                {selections[`${task.name}-${day}`]?.map(name => (
+                                                    <div key={name}>
+                                                        {name}
+                                                        <span
+                                                            className="deselect-button"
+                                                            onClick={() => handleDeselectPerson(name, `${task.name}-${day}`)}
+                                                        >
+                                                            &#10005;
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        // Si le jour n'est pas autorisé, grisez le bouton
+                                        <div></div>
+                                    )}
                                 </td>
                             ))}
                         </tr>
@@ -267,7 +320,7 @@ const TaskPlanner = () => {
 
     return (
         <div className="task-planner">
-            <h1>Planificateur de Tâches</h1>
+            <h1>Planning Helper</h1>
             {renderTaskTable()}
             {showModal && renderModal()}
         </div>
