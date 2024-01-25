@@ -34,10 +34,10 @@ const TaskPlanner = () => {
 
     const handleSelectionChange = (personName, isChecked) => {
       const key = `${selectedTask.name}-${selectedDay}`;
+      let updatedSelections = { ...selections };
   
       // Gérer la sélection pour "Absents - Toute la semaine"
       if (selectedTask.name === "Absents" && selectedDay === "Toute la semaine") {
-          const updatedSelections = { ...selections };
           days.forEach(day => {
               if (isChecked) {
                   updatedSelections[`Absents-${day}`] = [...new Set([...updatedSelections[`Absents-${day}`], personName])];
@@ -48,29 +48,89 @@ const TaskPlanner = () => {
           setSelections(updatedSelections);
           return;
       }
+
+      // Gérer la sélection pour "S.A.V. (8h-16h) - Toute la semaine"
+      if (selectedTask.name === "S.A.V. (8h-16h)" && selectedDay === "Toute la semaine") {
+        days.forEach(day => {
+            if (isChecked) {
+                updatedSelections[`S.A.V. (8h-16h)-${day}`] = [...new Set([...updatedSelections[`S.A.V. (8h-16h)-${day}`], personName])];
+            } else {
+                updatedSelections[`S.A.V. (8h-16h)-${day}`] = updatedSelections[`S.A.V. (8h-16h)-${day}`].filter(name => name !== personName);
+            }
+        });
+        setSelections(updatedSelections);
+        return;
+    }
+
+          // Gérer la sélection pour "S.A.V. (9h-17h) - Toute la semaine"
+          if (selectedTask.name === "S.A.V. (9h-17h)" && selectedDay === "Toute la semaine") {
+            days.forEach(day => {
+                if (isChecked) {
+                    updatedSelections[`S.A.V. (9h-17h)-${day}`] = [...new Set([...updatedSelections[`S.A.V. (9h-17h)-${day}`], personName])];
+                } else {
+                    updatedSelections[`S.A.V. (9h-17h)-${day}`] = updatedSelections[`S.A.V. (9h-17h)-${day}`].filter(name => name !== personName);
+                }
+            });
+            setSelections(updatedSelections);
+            return;
+        }
   
-      // Cas général
-      let updatedSelections = selections[key] ? [...selections[key]] : [];
-      if (isChecked) {
-          updatedSelections.push(personName);
-      } else {
-          updatedSelections = updatedSelections.filter(name => name !== personName);
+              // Gérer la sélection pour "S.A.V. (11h-19h) - Toute la semaine"
+      if (selectedTask.name === "S.A.V. (11h-19h)" && selectedDay === "Toute la semaine") {
+        days.forEach(day => {
+            if (isChecked) {
+                updatedSelections[`S.A.V. (11h-19h)-${day}`] = [...new Set([...updatedSelections[`S.A.V. (11h-19h)-${day}`], personName])];
+            } else {
+                updatedSelections[`S.A.V. (11h-19h)-${day}`] = updatedSelections[`S.A.V. (11h-19h)-${day}`].filter(name => name !== personName);
+            }
+        });
+        setSelections(updatedSelections);
+        return;
+    }
+  
+      // Cas général pour toutes les tâches sauf "Cuisine" et "Nettoyage"
+      if (selectedTask.name !== "Cuisine" && selectedTask.name !== "Nettoyage") {
+          if (isChecked) {
+              if (!updatedSelections[key].includes(personName)) {
+                  updatedSelections[key].push(personName);
+              }
+          } else {
+              updatedSelections[key] = updatedSelections[key].filter(name => name !== personName);
+          }
       }
-      setSelections({ ...selections, [key]: updatedSelections });
+  
+      // Cas spécifique pour les tâches "Cuisine" et "Nettoyage"
+      if (selectedTask.name === "Cuisine" || selectedTask.name === "Nettoyage") {
+          if (isChecked) {
+              updatedSelections[key].push(personName);
+              days.filter(day => day !== selectedDay).forEach(day => {
+                  const otherDayKey = `${selectedTask.name}-${day}`;
+                  updatedSelections[otherDayKey] = updatedSelections[otherDayKey].filter(name => name !== personName);
+              });
+          } else {
+              updatedSelections[key] = updatedSelections[key].filter(name => name !== personName);
+          }
+      }
+  
+      setSelections(updatedSelections);
   };
 
   const renderModal = () => {
     let eligiblePersons;
 
     if (selectedTask.name === "Absents") {
-        // Pour "Absents", toutes les personnes sont éligibles
         eligiblePersons = persons;
     } else {
-        // Pour les autres tâches, exclure les personnes absentes ce jour-là
         eligiblePersons = persons.filter(person => {
-            // Vérifier si la personne est marquée absente ce jour-là
             const isAbsent = selections[`Absents-${selectedDay}`]?.includes(person.name);
-            return selectedTask.persons.includes(person.name) && !isAbsent;
+            if (isAbsent || !selectedTask.persons.includes(person.name)) {
+                return false;
+            }
+            if (selectedTask.name === "Cuisine" || selectedTask.name === "Nettoyage") {
+                const isAlreadyAssigned = days.some(day => selections[`${selectedTask.name}-${day}`]?.includes(person.name));
+                return !isAlreadyAssigned;
+            }
+            return true;
         });
     }
   
