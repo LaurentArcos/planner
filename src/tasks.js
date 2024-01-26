@@ -41,7 +41,7 @@ const tasks = [
     name: "Astreinte Prestataires / Repassage",
     persons: persons.filter(person => person.tasks.includes("Astreinte Prestataires / Repassage")).map(person => person.name),
     group: "Logistique",
-    days: ["MERCREDI"]
+    days: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"]
   },
   {
     name: "Pilote Session",
