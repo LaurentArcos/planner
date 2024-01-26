@@ -127,3 +127,25 @@ input {
   font-size: 2rem;
   font-weight: bold;
 }
+
+.bouton-vue-tableau {
+  position: absolute;
+  top: 0px;
+  right: 50px;
+  padding: 10px 20px;
+  background-color: #535353; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.bouton-vue-tableau:hover {
+  background-color: #77c07b;
+  color: black;
+}
+
+.task-planner-header {
+  position: relative;
+}

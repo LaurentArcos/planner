@@ -482,12 +482,14 @@ const TaskPlanner = () => {
 
   return (
     <div className="task-planner">
-      <h1>Planning Helper</h1>
+      <div className="task-planner-header">
+        <h1>Planning Helper</h1>
+        <button className="bouton-vue-tableau" onClick={toggleView}>
+          {showSimplifiedView ? "Afficher la vue détaillée" : "Afficher la vue simplifiée"}
+        </button>
+      </div>
       {renderTaskTable()}
       {showModal && renderModal()}
-      <button onClick={toggleView}>
-        {showSimplifiedView ? "Afficher la vue détaillée" : "Afficher la vue simplifiée"}
-      </button>
     </div>
   );
 };
