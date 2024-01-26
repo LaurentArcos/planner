@@ -20,6 +20,7 @@ const TaskPlanner = () => {
     "DIMANCHE",
   ];
   const [showSimplifiedView, setShowSimplifiedView] = useState(false);
+  const [selectedDateRange, setSelectedDateRange] = useState("");
   
     const scrollToTop = () => {
       window.scrollTo({
@@ -31,6 +32,12 @@ const TaskPlanner = () => {
   const toggleView = () => {
     setShowSimplifiedView(!showSimplifiedView);
     scrollToTop();
+  };
+
+  const getEndDate = (startDate) => {
+    const end = new Date(startDate);
+    end.setDate(end.getDate() + 6); 
+    return end.toLocaleDateString();
   };
 
   useEffect(() => {
@@ -52,6 +59,33 @@ const TaskPlanner = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const getFormattedDate = (date) => {
+    let year = date.getFullYear().toString().slice(2);
+    let month = (date.getMonth() + 1).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+    return `${day}/${month}/${year}`;
+  };
+
+  const getWeekPeriod = (selectedDate) => {
+    let startDate = new Date(selectedDate);
+    let endDate = new Date(selectedDate);
+
+    // Ajuster pour commencer le lundi de la semaine et finir le dimanche
+    startDate.setDate(startDate.getDate() - (startDate.getDay() === 0 ? 6 : startDate.getDay() - 1));
+    endDate.setDate(endDate.getDate() + (endDate.getDay() === 0 ? 0 : 7 - endDate.getDay()));
+
+    return {
+      start: getFormattedDate(startDate),
+      end: getFormattedDate(endDate)
+    };
+  };
+
+  const handleDateChange = (e) => {
+    const selectedDate = new Date(e.target.value);
+    const { start, end } = getWeekPeriod(selectedDate);
+    setSelectedDateRange(`${start} au ${end}`);
   };
 
   const handleSelectionChange = (personName, isChecked) => {
@@ -391,9 +425,9 @@ const TaskPlanner = () => {
         <table>
   <thead>
     <tr>
-      <th>Tâches / Jours</th>
+      <th style={{ width: "15%" }}>Tâches / Jours</th>
       {days.filter(day => day !== "Toute la semaine").map((day) => (
-        <th key={day}>{day}</th>
+        <th style={{ width: "10%" }} key={day}>{day}</th>
       ))}
     </tr>
   </thead>
@@ -475,7 +509,6 @@ const TaskPlanner = () => {
                       </div>
                     </>
                   ) : (
-                    // Si le jour n'est pas autorisé, grisez le bouton
                     <div></div>
                   )}
                 </td>
@@ -488,18 +521,32 @@ const TaskPlanner = () => {
   }
 };
 
-  return (
-    <div className="task-planner">
-      <div className="task-planner-header">
-        <h1>Planning Helper</h1>
-        <button className="bouton-vue-tableau" onClick={toggleView}>
-          {showSimplifiedView ? "Afficher la vue détaillée" : "Afficher la vue simplifiée"}
-        </button>
+return (
+  <div className="task-planner">
+    <div className="task-planner-header">
+      <h1>Planning Helper</h1>
+      <div>
+        <label htmlFor="start-date">Choisir la semaine du: </label>
+        <input
+          type="date"
+          id="start-date"
+          className="date-input"
+          onChange={handleDateChange}
+        />
       </div>
-      {renderTaskTable()}
-      {showModal && renderModal()}
+      <button className="bouton-vue-tableau" onClick={toggleView}>
+        {showSimplifiedView ? "Afficher la vue détaillée" : "Afficher la vue simplifiée"}
+      </button>
     </div>
-  );
+    {selectedDateRange && (
+      <p className="date-display">
+        Semaine du {selectedDateRange}
+      </p>
+    )}
+    {renderTaskTable()}
+    {showModal && renderModal()}
+  </div>
+);
 };
 
 export default TaskPlanner;

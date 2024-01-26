@@ -142,10 +142,30 @@ input {
 }
 
 .bouton-vue-tableau:hover {
-  background-color: #77c07b;
+  background-color: #3ba4d4;
   color: black;
 }
 
 .task-planner-header {
   position: relative;
+}
+
+
+#start-date {
+  background-color: #323232;
+  color: white;
+  border: 1px solid #535353;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin: 0 10px 20px;
+}
+
+.date-display {
+  color: #ffffff;
+  background-color: #535353;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 1.2rem;
 }
