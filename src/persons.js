@@ -2,7 +2,7 @@ const persons = [
   {
     name: "Bertrand",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: [""]
+    tasks: ["Cuisine", "Nettoyage"]
   },
   {
     name: "Capucine",
@@ -22,7 +22,7 @@ const persons = [
   {
     name: "Hugo",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Cuisine", "Nettoyage","S.A.V. (8h-16h)", "S.A.V. (11h-19h)","S.A.V. (9h-17h)"]
+    tasks: ["Cuisine", "Nettoyage","S.A.V. (8h-16h)", "S.A.V. (11h-19h)","S.A.V. (9h-17h)", "Pilote Session", "Astreinte Prestataires / Repassage"]
   },
   {
     name: "Laurent",
@@ -52,7 +52,7 @@ const persons = [
   {
     name: "Marie",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Cuisine", "Nettoyage","Boutique Toulon"]
+    tasks: ["S.A.V. (8h-16h)", "S.A.V. (11h-19h)","S.A.V. (9h-17h)","Cuisine", "Nettoyage","Boutique Toulon"]
   },
   {
     name: "Mathis",
@@ -62,7 +62,7 @@ const persons = [
   {
     name: "Matthieu",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: [""]
+    tasks: ["Cuisine", "Nettoyage"]
   },
   {
     name: "Nathaniel",
@@ -72,7 +72,7 @@ const persons = [
   {
     name: "Nolan",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Boutique Toulon"]
+    tasks: ["Pilote Session", "Cuisine", "Nettoyage", "Astreinte Prestataires / Repassage", "Boutique Toulon"]
   },
   {
     name: "Oualid",
@@ -82,7 +82,7 @@ const persons = [
   {
     name: "Pierre",
     availableDays: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"],
-    tasks: ["Boutique Toulon"]
+    tasks: ["Boutique Toulon", "Cuisine", "Nettoyage"]
   },
   {
     name: "Quentin",

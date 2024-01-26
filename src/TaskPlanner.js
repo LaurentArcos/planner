@@ -41,13 +41,34 @@ const TaskPlanner = () => {
   };
 
   useEffect(() => {
-    // Initialisation des sélections en tant que tableaux vides
     let initialSelections = {};
     tasks.forEach((task) => {
       days.forEach((day) => {
         initialSelections[`${task.name}-${day}`] = [];
       });
     });
+  
+    // Définition des sélections par défaut
+    const defaultSelections = [
+      { name: "Nolan", task: "Boutique Toulon", days: ["SAMEDI"] },
+      { name: "Lucie", task: "Absents", days: ["LUNDI", "MARDI"] },
+      { name: "Hugo", task: "Absents", days: ["JEUDI", "VENDREDI"] },
+      { name: "Lorenzo", task: "Absents", days: ["LUNDI", "MARDI", "MERCREDI"] },
+      { name: "Lorenzo", task: "Boutique Toulon", days: ["JEUDI", "VENDREDI","SAMEDI"] },
+      { name: "Elino", task: "Absents", days: ["LUNDI", "MARDI"] },
+      { name: "Quentin", task: "Absents", days: ["JEUDI", "VENDREDI"] },
+      { name: "Oualid", task: "Absents", days: ["JEUDI", "VENDREDI"] },
+    ];
+  
+    // Appliquer les sélections par défaut
+    defaultSelections.forEach(sel => {
+      sel.days.forEach(day => {
+        if (!initialSelections[`${sel.task}-${day}`].includes(sel.name)) {
+          initialSelections[`${sel.task}-${day}`].push(sel.name);
+        }
+      });
+    });
+  
     setSelections(initialSelections);
   }, [tasks, persons]);
 
