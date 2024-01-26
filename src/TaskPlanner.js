@@ -20,9 +20,17 @@ const TaskPlanner = () => {
     "DIMANCHE",
   ];
   const [showSimplifiedView, setShowSimplifiedView] = useState(false);
+  
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    };
 
   const toggleView = () => {
     setShowSimplifiedView(!showSimplifiedView);
+    scrollToTop();
   };
 
   useEffect(() => {
