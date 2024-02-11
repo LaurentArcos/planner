@@ -113,6 +113,19 @@ const TaskPlanner = () => {
     const key = `${selectedTask.name}-${selectedDay}`;
     let updatedSelections = { ...selections };
 
+    // Interdire la sélection croisée entre "Cuisine" et "Nettoyage" pour le même jour
+    if ((selectedTask.name === "Cuisine" || selectedTask.name === "Nettoyage") && isChecked) {
+        const oppositeTask = selectedTask.name === "Cuisine" ? "Nettoyage" : "Cuisine";
+        const oppositeKey = `${oppositeTask}-${selectedDay}`;
+        const isAlreadyAssignedToOpposite = selections[oppositeKey]?.includes(personName);
+        
+        // Si déjà assigné à la tâche opposée, retourner sans modifier les sélections
+        if (isAlreadyAssignedToOpposite) {
+            alert(`${personName} ne peut pas être assigné(e) à "${selectedTask.name}" et "${oppositeTask}" le même jour.`);
+            return;
+        }
+    }
+
     // Gérer la sélection pour "Absents - Toute la semaine"
     if (selectedTask.name === "Absents" && selectedDay === "Toute la semaine") {
       days.forEach((day) => {
@@ -381,30 +394,32 @@ const TaskPlanner = () => {
   };
 
   const renderModal = () => {
-    let eligiblePersons;
+    // Déterminer la tâche opposée si applicable
+    const oppositeTask = selectedTask.name === "Cuisine" ? "Nettoyage" : selectedTask.name === "Nettoyage" ? "Cuisine" : null;
 
-    if (selectedTask.name === "Absents") {
-      eligiblePersons = persons;
-    } else {
-      eligiblePersons = persons.filter((person) => {
-        const isAbsent = selections[`Absents-${selectedDay}`]?.includes(
-          person.name
-        );
-        if (isAbsent || !selectedTask.persons.includes(person.name)) {
-          return false;
+    let eligiblePersons = persons.filter((person) => {
+        // Exclure les personnes absentes pour le jour sélectionné
+        if (selections[`Absents-${selectedDay}`]?.includes(person.name)) {
+            return false;
         }
-        if (
-          selectedTask.name === "Cuisine" ||
-          selectedTask.name === "Nettoyage"
-        ) {
-          const isAlreadyAssigned = days.some((day) =>
-            selections[`${selectedTask.name}-${day}`]?.includes(person.name)
-          );
-          return !isAlreadyAssigned;
+
+        // Pour "Cuisine" et "Nettoyage", exclure les personnes assignées à la tâche opposée sur le même jour
+        if (oppositeTask && selections[`${oppositeTask}-${selectedDay}`]?.includes(person.name)) {
+            return false;
         }
+
+        // Pour les autres tâches, s'assurer que la personne n'est pas déjà assignée à cette tâche sur un autre jour (sauf pour "Toute la semaine")
+        if (selectedDay !== "Toute la semaine" && days.some(day => selections[`${selectedTask.name}-${day}`]?.includes(person.name))) {
+            return false;
+        }
+
+        // S'assurer que la personne est éligible pour la tâche sélectionnée (pour les tâches autres que "Absents")
+        if (selectedTask.name !== "Absents" && !selectedTask.persons.includes(person.name)) {
+            return false;
+        }
+
         return true;
-      });
-    }
+    });
 
     return (
       <div className="modal-overlay">
