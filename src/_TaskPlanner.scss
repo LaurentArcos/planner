@@ -169,3 +169,8 @@ input {
   text-align: center;
   font-size: 1.2rem;
 }
+
+.empty-cell {
+  background-color: #000; /* Fond noir */
+  height: 100%; /* Assurez-vous que la cellule ait une hauteur, si nécessaire */
+}

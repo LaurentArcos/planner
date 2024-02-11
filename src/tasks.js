@@ -32,8 +32,8 @@ const tasks = [
     days: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"]
   },
   {
-    name: "S.A.V. (11h-19h)",
-    persons: persons.filter(person => person.tasks.includes("S.A.V. (11h-19h)")).map(person => person.name),
+    name: "S.A.V. (10h-18h)",
+    persons: persons.filter(person => person.tasks.includes("S.A.V. (10h-18h)")).map(person => person.name),
     group: "S.A.V.",
     days: ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"]
   },

@@ -21,7 +21,8 @@ const TaskPlanner = () => {
   ];
   const [showSimplifiedView, setShowSimplifiedView] = useState(false);
   const [selectedDateRange, setSelectedDateRange] = useState("");
-  
+  const SAV_TASKS = ["S.A.V. (8h-16h)", "S.A.V. (9h-17h)", "S.A.V. (10h-18h)"];
+
     const scrollToTop = () => {
       window.scrollTo({
         top: 0,
@@ -109,9 +110,24 @@ const TaskPlanner = () => {
     setSelectedDateRange(`${start} au ${end}`);
   };
 
-  const handleSelectionChange = (personName, isChecked) => {
+const handleSelectionChange = (personName, isChecked) => {
     const key = `${selectedTask.name}-${selectedDay}`;
     let updatedSelections = { ...selections };
+
+    // Pour les tâches S.A.V., vérifier si la personne est déjà assignée à un autre créneau S.A.V. sur le même jour
+    if (SAV_TASKS.includes(selectedTask.name) && isChecked) {
+        const isAssignedToOtherSAV = SAV_TASKS.some((taskName) => {
+            if (taskName !== selectedTask.name) {
+                return selections[`${taskName}-${selectedDay}`]?.includes(personName);
+            }
+            return false;
+        });
+
+        if (isAssignedToOtherSAV) {
+            // Si déjà assigné à un autre créneau S.A.V., retourner sans modifier les sélections
+            return;
+        }
+    }
 
     // Interdire la sélection croisée entre "Cuisine" et "Nettoyage" pour le même jour
     if ((selectedTask.name === "Cuisine" || selectedTask.name === "Nettoyage") && isChecked) {
@@ -226,22 +242,22 @@ const TaskPlanner = () => {
       return;
     }
 
-    // Gérer la sélection pour "S.A.V. (11h-19h) - Toute la semaine"
+    // Gérer la sélection pour "S.A.V. (10h-18h) - Toute la semaine"
     if (
-      selectedTask.name === "S.A.V. (11h-19h)" &&
+      selectedTask.name === "S.A.V. (10h-18h)" &&
       selectedDay === "Toute la semaine"
     ) {
       days.forEach((day) => {
         if (isChecked) {
-          updatedSelections[`S.A.V. (11h-19h)-${day}`] = [
+          updatedSelections[`S.A.V. (10h-18h)-${day}`] = [
             ...new Set([
-              ...updatedSelections[`S.A.V. (11h-19h)-${day}`],
+              ...updatedSelections[`S.A.V. (10h-18h)-${day}`],
               personName,
             ]),
           ];
         } else {
-          updatedSelections[`S.A.V. (11h-19h)-${day}`] = updatedSelections[
-            `S.A.V. (11h-19h)-${day}`
+          updatedSelections[`S.A.V. (10h-18h)-${day}`] = updatedSelections[
+            `S.A.V. (10h-18h)-${day}`
           ].filter((name) => name !== personName);
         }
       });
@@ -396,11 +412,24 @@ const TaskPlanner = () => {
   const renderModal = () => {
     // Déterminer la tâche opposée si applicable
     const oppositeTask = selectedTask.name === "Cuisine" ? "Nettoyage" : selectedTask.name === "Nettoyage" ? "Cuisine" : null;
+    const isSAVTask = SAV_TASKS.includes(selectedTask.name);
 
     let eligiblePersons = persons.filter((person) => {
         // Exclure les personnes absentes pour le jour sélectionné
         if (selections[`Absents-${selectedDay}`]?.includes(person.name)) {
             return false;
+        }
+
+        // Vérifier que la personne a la tâche attribuée dans ses tâches disponibles
+    if (!person.tasks.includes(selectedTask.name)) {
+      return false;
+    }
+
+        // Exclure les personnes déjà assignées à un autre créneau S.A.V. sur le même jour
+        if (isSAVTask) {
+          return !SAV_TASKS.some((taskName) => {
+            return taskName !== selectedTask.name && selections[`${taskName}-${selectedDay}`]?.includes(person.name);
+          });
         }
 
         // Pour "Cuisine" et "Nettoyage", exclure les personnes assignées à la tâche opposée sur le même jour
@@ -459,33 +488,31 @@ const TaskPlanner = () => {
     if (showSimplifiedView) {
       return (
         <table>
-  <thead>
-    <tr>
-      <th style={{ width: "15%" }}>Tâches / Jours</th>
-      {days.filter(day => day !== "Toute la semaine").map((day) => (
-        <th style={{ width: "10%" }} key={day}>{day}</th>
-      ))}
-    </tr>
-  </thead>
-  <tbody>
-    {tasks.filter(task => task.name !== "Absents").map((task) => (
-      <tr key={task.name}>
-        <td>{task.name}</td>
-        {days.filter(day => day !== "Toute la semaine").map((day) => (
-          <td key={`${task.name}-${day}`}>
-            {task.days.includes(day) ? (
-              <div>
-                {selections[`${task.name}-${day}`]?.join(", ")}
-              </div>
-            ) : (
-              <div></div>
-            )}
-          </td>
-        ))}
-      </tr>
+          <thead>
+            <tr>
+              <th style={{ width: "15%" }}>Tâches / Jours</th>
+              {days.filter(day => day !== "Toute la semaine").map((day) => (
+                <th style={{ width: "10%" }} key={day}>{day}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+          {tasks.filter(task => task.name !== "Absents").map((task) => (
+  <tr key={task.name}>
+    <td>{task.name}</td>
+    {days.filter(day => day !== "Toute la semaine").map((day) => (
+      <td key={`${task.name}-${day}`} className={selections[`${task.name}-${day}`]?.length ? "" : "empty-cell"}>
+        {task.days.includes(day) && selections[`${task.name}-${day}`]?.length ? (
+          <div>
+            {selections[`${task.name}-${day}`]?.join(" / ")}
+          </div>
+        ) : null /* Ici, vous pourriez laisser vide ou mettre un élément spécifique pour les cases noires */}
+      </td>
     ))}
-  </tbody>
-</table>
+  </tr>
+))}
+          </tbody>
+        </table>
       );
     } else {
     return (
