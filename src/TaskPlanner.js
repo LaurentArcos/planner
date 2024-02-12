@@ -410,7 +410,7 @@ const handleSelectionChange = (personName, isChecked) => {
   };
 
   const renderModal = () => {
-    // Déterminer la tâche opposée si applicable
+    
     const oppositeTask = selectedTask.name === "Cuisine" ? "Nettoyage" : selectedTask.name === "Nettoyage" ? "Cuisine" : null;
     const isSAVTask = SAV_TASKS.includes(selectedTask.name);
 
@@ -506,7 +506,7 @@ const handleSelectionChange = (personName, isChecked) => {
           <div>
             {selections[`${task.name}-${day}`]?.join(" / ")}
           </div>
-        ) : null /* Ici, vous pourriez laisser vide ou mettre un élément spécifique pour les cases noires */}
+        ) : null }
       </td>
     ))}
   </tr>
