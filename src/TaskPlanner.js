@@ -417,8 +417,12 @@ const handleSelectionChange = (personName, isChecked) => {
     let eligiblePersons = persons.filter((person) => {
         // Exclure les personnes absentes pour le jour sélectionné
         if (selections[`Absents-${selectedDay}`]?.includes(person.name)) {
-            return false;
-        }
+          return false;
+      }
+
+      if (selectedTask.name === "Absents") {
+        return true; // Rendre toutes les personnes éligibles pour être marquées comme absentes
+    }
 
         // Vérifier que la personne a la tâche attribuée dans ses tâches disponibles
     if (!person.tasks.includes(selectedTask.name)) {
